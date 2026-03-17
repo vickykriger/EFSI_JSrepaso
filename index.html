@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laboratorio JS - Panel Completo</title>
+    <style>
+        :root { --primary: #2563eb; --secondary: #64748b; --bg: #f8fafc; --card: #ffffff; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); padding: 20px; color: #1e293b; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 30px; }
+        h2 { border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px; color: var(--secondary); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: var(--card); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+        h3 { margin-top: 0; font-size: 1.1rem; color: #334155; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        .input-group { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+        input { padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
+        input:focus { border-color: var(--primary); }
+        button { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        button:hover { opacity: 0.9; }
+        .resultado { margin-top: 15px; padding: 10px; background: #f1f5f9; border-radius: 6px; font-weight: bold; font-family: monospace; min-height: 20px; color: #2563eb; white-space: pre-wrap; font-size: 0.9rem; }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Prueba de Funciones JS</h1>
+
+        <h2>1. Funciones con Interacción</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Formatear Nombre</h3>
+                <div class="input-group">
+                    <input type="text" id="in1" placeholder="Ej: mArIA">
+                    <button onclick="exec(1)">Ejecutar</button>
+                    <div class="resultado" id="res1"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Contar Letras</h3>
+                <div class="input-group">
+                    <input type="text" id="in2" placeholder="Hola Mundo">
+                    <button onclick="exec(2)">Ejecutar</button>
+                    <div class="resultado" id="res2"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Número Máximo</h3>
+                <div class="input-group">
+                    <input type="number" id="in3a" placeholder="Num 1">
+                    <input type="number" id="in3b" placeholder="Num 2">
+                    <input type="number" id="in3c" placeholder="Num 3">
+                    <button onclick="exec(3)">Ejecutar</button>
+                    <div class="resultado" id="res3"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Validar Password</h3>
+                <div class="input-group">
+                    <input type="text" id="in4" placeholder="8+ chars y 1 número">
+                    <button onclick="exec(4)">Validar</button>
+                    <div class="resultado" id="res4"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Arrays y Promedio</h3>
+                <div class="input-group">
+                    <input type="text" id="inArrays" placeholder="Ej: 10,20,3,4">
+                    <button onclick="exec('arrays')">Calcular Todo</button>
+                    <div class="resultado" id="resArrays"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Crear Usuario (API)</h3>
+                <div class="input-group">
+                    <input type="text" id="apiNom" placeholder="Nombre">
+                    <input type="number" id="apiEdad" placeholder="Edad">
+                    <button onclick="exec('api')">Añadir a usuarios2</button>
+                    <div class="resultado" id="resApi"></div>
+                </div>
+            </div>
+        </div>
+
+        <h2>2. Funciones de Objetos y Datos Internos</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Datos de Usuario y Productos</h3>
+                <button onclick="exec('objetos')">Cargar Datos Internos</button>
+                <div class="resultado" id="resObjetos"></div>
+            </div>
+
+            <div class="card">
+                <h3>Listas y Filtros (ES6)</h3>
+                <button onclick="exec('listas')">Ejecutar Filtros</button>
+                <div class="resultado" id="resListas"></div>
+            </div>
+            
+            <div class="card">
+                <h3>Consultas API (ID y Mayores)</h3>
+                <div class="input-group">
+                    <input type="number" id="inId" placeholder="Buscar ID (ej: 1)">
+                    <button onclick="exec('consultaApi')">Consultar</button>
+                    <div class="resultado" id="resConsultaApi"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="guia.js"></script>
+
+    <script>
+        function exec(tipo) {
+            const out = (id, val) => document.getElementById(id).innerText = val;
+
+            // 1. Formatear Nombre
+            if (tipo === 1) {
+                const val = document.getElementById('in1').value;
+                out('res1', formatearNombre(val));
+            }
+
+            // 2. Contar Letras
+            if (tipo === 2) {
+                const val = document.getElementById('in2').value;
+                out('res2', "Letras: " + contarLetras(val));
+            }
+
+            // 3. Máximo
+            if (tipo === 3) {
+                const a = Number(document.getElementById('in3a').value);
+                const b = Number(document.getElementById('in3b').value);
+                const c = Number(document.getElementById('in3c').value);
+                out('res3', "Máximo: " + maximo(a, b, c));
+            }
+
+            // 4. Password
+            if (tipo === 4) {
+                const val = document.getElementById('in4').value;
+                out('res4', validarPassword(val) ? "Válida ✅" : "Inválida ❌");
+            }
+
+            // 5, 6, 7, 18. Arrays y Promedio
+            if (tipo === 'arrays') {
+                const val = document.getElementById('inArrays').value;
+                const arr = val.split(',').map(Number);
+                const r = `Suma: ${sumarArray(arr)}\nMayor: ${mayorNumero(arr)}\nPares: [${obtenerPares(arr)}]\nPromedio: ${promedio(arr)}`;
+                out('resArrays', r);
+            }
+
+            // 8, 9, 10, 14, 15. Objetos y Producto
+            if (tipo === 'objetos') {
+                const copiaUsuario = { ...usuario };
+                const r = `Descripción: ${descripcionUsuario(usuario)}\nActivar: ${JSON.stringify(activarUsuario(copiaUsuario))}\nPrecio Total: $${precioTotal(productos)}\nSpread Prod: ${JSON.stringify(spreadOperator(producto))}`;
+                out('resObjetos', r);
+                extraerNomPre(producto); // Esto sale por consola como pide tu función
+            }
+
+            // 11, 12, 13, 16, 17. Listas y Filtros
+            if (tipo === 'listas') {
+                const r = `Nombres: ${soloNombres(usuarios)}\nMayores 18: ${JSON.stringify(mayoresEdad(usuarios))}\nSuma Edades: ${sumarEdad(usuarios)}\nBuscar 'Mouse': ${JSON.stringify(buscarProducto(productos, 'Mouse'))}\nProds Caros: ${JSON.stringify(productosCaros(productos))}`;
+                out('resListas', r);
+            }
+
+            // API: Consultas
+            if (tipo === 'consultaApi') {
+                const id = Number(document.getElementById('inId').value);
+                const r = `Usuario ID ${id}: ${JSON.stringify(obtenerUsuarioPorId(id))}\nMayores API: ${JSON.stringify(obtenerMayores())}`;
+                out('resConsultaApi', r);
+            }
+
+            // API: Crear
+            if (tipo === 'api') {
+                const n = document.getElementById('apiNom').value;
+                const e = document.getElementById('apiEdad').value;
+                crearUsuario(n, e);
+                const lista = obtenerUsuario();
+                out('resApi', "Usuario Creado!\nLista: " + JSON.stringify(lista, null, 2));
+            }
+        }
+    </script>
+</body>
+</html>
