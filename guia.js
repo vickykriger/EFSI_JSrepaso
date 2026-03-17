@@ -3,6 +3,8 @@ function formatearNombre(nombre) {
     return palabraCambiada;
 }
 
+let aux = formatearNombre("hoLA")
+console.log("El ejericio 1 es" + aux);
 
 function contarLetras(texto) {
     let textoSinEspacios = texto.replace(/\s+/g, '').length;
